@@ -1,0 +1,8 @@
+<?php require __DIR__.'/common.php';$user=requireRole('user');
+if($_SERVER['REQUEST_METHOD']!=='POST')showError('Choose your seats first.');csrfCheck();
+try{$selection=checkSelection($pdo,$_POST);}catch(RuntimeException $e){showError($e instanceof PDOException?'Could not load checkout.':$e->getMessage());}
+pageStart('Checkout');bookingSteps(2); ?>
+<h1>Complete your booking</h1><div class="event-detail"><section class="panel"><h2>Customer details</h2><form action="review.php" method="post"><?php csrfField(); ?>
+<?php foreach(['event_id','session_id','promo_code'] as $f): ?><input type="hidden" name="<?=h($f)?>" value="<?=h($selection['input'][$f])?>"><?php endforeach; ?>
+<?php foreach($selection['input']['seat_ids'] as $seatId): ?><input type="hidden" name="seat_ids[]" value="<?=h($seatId)?>"><?php endforeach; ?>
+<label for="checkout-name">Full name</label><input id="checkout-name" name="full_name" value="<?=h($selection['full_name'])?>" minlength="2" maxlength="80" required autocomplete="name"><label for="checkout-email">Email</label><input id="checkout-email" name="email" type="email" value="<?=h($selection['email'])?>" maxlength="120" required autocomplete="email"><label for="checkout-phone">Phone</label><input id="checkout-phone" name="phone" type="tel" value="<?=h($selection['phone'])?>" maxlength="40" required autocomplete="tel"><p class="small">Check your contact details before continuing.</p><button>Review booking →</button></form><p><a href="booking.php?event=<?=h($selection['event']['event_id'])?>&amp;session=<?=h($selection['session']['session_id'])?>">Change seats</a></p></section><aside class="panel"><?php bookingSummary($selection); ?></aside></div><?php pageEnd(); ?>
