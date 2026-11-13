@@ -1,4 +1,3 @@
--- Back up eventseat. Import ONCE into your upgraded database.
 ALTER TABLE users ADD auth_version INT UNSIGNED NOT NULL DEFAULT 0;
 CREATE TABLE password_resets (
  reset_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
