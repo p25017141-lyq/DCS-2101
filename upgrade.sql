@@ -1,4 +1,3 @@
--- Back up eventseat first. Import ONCE into the existing eventseat database.
 CREATE TABLE users (
  user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
  full_name VARCHAR(80) NOT NULL, email VARCHAR(120) NOT NULL UNIQUE,
